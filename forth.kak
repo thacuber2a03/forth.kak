@@ -18,7 +18,7 @@ provide-module -override forth %{
 		functions='allot decimal hex pick rp@ sp@ type word count find u\\. n\\. d\\. u\\.r \\.r refill spaces space
 		           emit key interpret'
 
-		operators='1\\+ \\+ 1- - \\\* 2\\\* 4\\\* 8\\\* 2/ / r@ @ \\+! -! ! 2@ 2r@ 2\\+! 2-! 0= 0\< 0\> 0\<\> 0\< 0\>
+		operators='1\\+ \\+ 1- - \\\* 2\\\* 2/ / r@ @ \\+! -! ! 2@ 2r@ 2\\+! 2-! 0= 0\< 0\> 0\<\> 0\< 0\>
 		           \# r\> \>r 2r\> 2\>r negate invert /mod u/mod um/mod mod max min abs S\>D defer! defer@ cells
 		           cell\\+ drop dup over swap 2drop 2dup 2over 2swap C@ C! C, , '' nip or and xor invert lshift rshift
 		           \> \< u\< \\?dup roll rot'
