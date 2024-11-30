@@ -9,8 +9,6 @@ provide-module -override forth %{
 
 	add-highlighter shared/forth/code default-region group
 
-	# I don't know enough Bash so if anyone could help me with all this that'd be great
-
 	evaluate-commands %sh{
 		keywords='vocabulary variable value create does\> constant field char if then to field begin while repeat
 		          case of endof endcase do \\?do loop else again until immediate quit exit \\[ \\] defer is'
@@ -48,6 +46,8 @@ provide-module -override forth %{
 			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))$      0:operator
 		"
 	}
+
+	# I don't know enough Bash so if anyone could help me with all this that'd be great
 
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)(TRUE|FALSE|BL|PI|CELL|C/L|R/O|W/O|R/W)(?=\s)" 0:builtin
 	add-highlighter shared/forth/code/ regex "(?i)^(TRUE|FALSE|BL|PI|CELL|C/L|R/O|W/O|R/W)(?=\s)"       0:builtin
