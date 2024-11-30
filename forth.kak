@@ -1,5 +1,3 @@
-colorscheme default
-
 provide-module -override forth %{
 	add-highlighter shared/forth regions
 	add-highlighter shared/forth/line_comment region '\\' '$' fill comment
