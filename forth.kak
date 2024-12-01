@@ -84,9 +84,9 @@ provide-module -override forth %{
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)(\[('|COMPILE)\])|POSTPONE\s+\S+$"      0:function
 
 	add-highlighter shared/forth/code/ regex "(?i)^-?\d+(?=\s)"       0:value
-	add-highlighter shared/forth/code/ regex "(?i)(?<=-?\s)\d+(?=\s)" 0:value
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+(?=\s)" 0:value
 	add-highlighter shared/forth/code/ regex "(?i)^-?\d+$"            0:value
-	add-highlighter shared/forth/code/ regex "(?i)(?<=-?\s)\d+$"      0:value
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+$"      0:value
 }
 
 hook global BufCreate .+\.(fs|fth|4th)$ %{
