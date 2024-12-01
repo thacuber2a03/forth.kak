@@ -1,12 +1,15 @@
 # forth.kak
-FORTH highlighter for Kakoune
 
-## Installation
+a (as of now) half-baked FORTH highlighter for Kakoune
 
-### With plug.kak
+aims to sensibly highlight all FORTH words in the [2012 FORTH standard](https://forth-standard.org/standard/core)
+
+## installation
+
+### with plug.kak
 ```kak
 plug 'thacuber2a03/forth.kak'
 ```
 
-### Manually
+### manually
 copy and paste the `forth.kak` file somewhere in your config dir and source or reload
