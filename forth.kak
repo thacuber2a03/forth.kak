@@ -20,7 +20,7 @@ provide-module -override forth %{
 
 	evaluate-commands %sh{
 		keywords='VOCABULARY VARIABLE VALUE CREATE DOES\> CONSTANT FIELD CHAR IF THEN TO FIELD BEGIN WHILE REPEAT
-		          CASE OF ENDOF ENDCASE DO \\?DO LOOP \\+LOOP ELSE AGAIN UNTIL IMMEDIATE QUIT EXIT \\[ \\] DEFER
+		          CASE OF ENDOF ENDCASE DO \\?DO LOOP \\+LOOP ELSE AGAIN UNTIL QUIT EXIT \\[ \\] DEFER
 		          IS MARKER : \\\;'
 
 		values='TRUE FALSE BL PI CELL I J TIB \#IN \>IN RP0 SP0 BASE STATE ABORT'
@@ -33,33 +33,39 @@ provide-module -override forth %{
 		           CELL\\+ DROP DUP OVER SWAP 2DROP 2DUP 2OVER 2SWAP C@ C! C, , '' NIP OR AND XOR INVERT LSHIFT RSHIFT
 		           \> \< U\< \\?DUP ROLL ROT'
 
-		builtin='C/L R/O W/O R/W'
+		builtins='C/L R/O W/O R/W'
+
+		attributes='IMMEDIATE'
 
 		join() { sep=$2; eval set -- $1; IFS="$sep"; echo "$*"; }
 
 		printf %s\\n "declare-option str-list forth_static_words $(join "${keywords} ${values} ${functions} ${operators} ${builtin}" ' ')"
 
 		printf %s "
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${keywords}" '|'))(?=\s)        0:keyword
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${keywords}" '|'))(?=\s)  0:keyword
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${keywords}" '|'))$             0:keyword
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${keywords}" '|'))$       0:keyword
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${values}" '|'))(?=\s)          0:value
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${values}" '|'))(?=\s)    0:value
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${values}" '|'))$               0:value
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${values}" '|'))$         0:value
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${functions}" '|'))(?=\s)       0:function
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${functions}" '|'))(?=\s) 0:function
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${functions}" '|'))$            0:function
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${functions}" '|'))$      0:function
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${operators}" '|'))(?=\s)       0:operator
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))(?=\s) 0:operator
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${operators}" '|'))$            0:operator
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))$      0:operator
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))(?=\s)        0:builtin
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))(?=\s)  0:builtin
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))$             0:builtin
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))$       0:builtin
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${keywords}" '|'))(?=\s)          0:keyword
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${keywords}" '|'))(?=\s)    0:keyword
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${keywords}" '|'))$               0:keyword
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${keywords}" '|'))$         0:keyword
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${values}" '|'))(?=\s)            0:value
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${values}" '|'))(?=\s)      0:value
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${values}" '|'))$                 0:value
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${values}" '|'))$           0:value
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${functions}" '|'))(?=\s)         0:function
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${functions}" '|'))(?=\s)   0:function
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${functions}" '|'))$              0:function
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${functions}" '|'))$        0:function
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${operators}" '|'))(?=\s)         0:operator
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))(?=\s)   0:operator
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${operators}" '|'))$              0:operator
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))$        0:operator
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))(?=\s)          0:builtin
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))(?=\s)    0:builtin
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))$               0:builtin
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))$         0:builtin
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${attributes}" '|'))(?=\s)        0:attribute
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${attributes}" '|'))(?=\s)  0:attribute
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${attributes}" '|'))$             0:attribute
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${attributes}" '|'))$       0:attribute
 		"
 	}
 
@@ -78,10 +84,10 @@ provide-module -override forth %{
 	add-highlighter shared/forth/code/ regex "(?i)^\[(IF|ELSE|THEN|DEFINED|UNDEFINED)\]$"            0:attribute
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)\[(IF|ELSE|THEN|DEFINED|UNDEFINED)\]$"      0:attribute
 
-	add-highlighter shared/forth/code/ regex "(?i)^(\[('|COMPILE)\])|POSTPONE\s+\S+(?=\s)"       0:function
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)(\[('|COMPILE)\])|POSTPONE\s+\S+(?=\s)" 0:function
-	add-highlighter shared/forth/code/ regex "(?i)^(\[('|COMPILE)\])|POSTPONE\s+\S+$"            0:function
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)(\[('|COMPILE)\])|POSTPONE\s+\S+$"      0:function
+	add-highlighter shared/forth/code/ regex "(?i)^((\[('|COMPILE)\])|POSTPONE)\s+(\S+)(?=\s)"       0:attribute
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)((\[('|COMPILE)\])|POSTPONE)\s+(\S+)(?=\s)" 0:attribute
+	add-highlighter shared/forth/code/ regex "(?i)^((\[('|COMPILE)\])|POSTPONE)\s+(\S+)$"            0:attribute
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)((\[('|COMPILE)\])|POSTPONE)\s+(\S+)$"      0:attribute
 
 	add-highlighter shared/forth/code/ regex "(?i)^-?\d+(?=\s)"       0:value
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+(?=\s)" 0:value
