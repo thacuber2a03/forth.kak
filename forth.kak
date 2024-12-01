@@ -1,27 +1,36 @@
 provide-module -override forth %{
 	add-highlighter shared/forth regions
-	add-highlighter shared/forth/line_comment region '\\' '$' fill comment
-	add-highlighter shared/forth/block_comment region '\( ' '\)' fill comment
-	add-highlighter shared/forth/ region '[.SC]" ' '"' fill string
-	add-highlighter shared/forth/ region 'S\\" ' '"' fill string
-	add-highlighter shared/forth/ region 'ABORT" ' '"' fill string
-	add-highlighter shared/forth/ region 'BREAK" ' '"' fill string
+
+	add-highlighter shared/forth/ region '^\\(?=\s)'       '$'               fill comment
+	add-highlighter shared/forth/ region '(?<=\s)\\(?=\s)' '$'               fill comment
+
+	add-highlighter shared/forth/ region '^\((?=\s)'       '(?<=\s)\)(?=\s)' fill comment
+	add-highlighter shared/forth/ region '(?<=\s)\((?=\s)' '(?<=\s)\)(?=\s)' fill comment
+
+	add-highlighter shared/forth/ region '(?<=\s)[.SC]"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region '(?<=\s)S\\"(?=\s)'   '"(?=\s)' fill string
+	add-highlighter shared/forth/ region '(?<=\s)ABORT"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region '(?<=\s)BREAK"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region       '^[.SC]"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region       '^S\\"(?=\s)'   '"$'      fill string
+	add-highlighter shared/forth/ region       '^ABORT"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region       '^BREAK"(?=\s)' '"$'      fill string
 
 	add-highlighter shared/forth/code default-region group
 
 	evaluate-commands %sh{
-		keywords='vocabulary variable value create does\> constant field char if then to field begin while repeat
-		          case of endof endcase do \\?do loop else again until immediate quit exit \\[ \\] defer is'
+		keywords='VOCABULARY VARIABLE VALUE CREATE DOES\> CONSTANT FIELD CHAR IF THEN TO FIELD BEGIN WHILE REPEAT
+		          CASE OF ENDOF ENDCASE DO \\?DO LOOP ELSE AGAIN UNTIL IMMEDIATE QUIT EXIT \\[ \\] DEFER IS'
 
-		values='i j tib \#in \>in RP0 SP0 base state abort'
+		values='I J TIB \#IN \>IN RP0 SP0 BASE STATE ABORT'
 
-		functions='allot decimal hex pick rp@ sp@ type word count find u\\. n\\. d\\. u\\.r \\.r refill spaces space
-		           emit key interpret'
+		functions='ALLOT DECIMAL HEX PICK RP@ SP@ TYPE WORD COUNT FIND U\\. N\\. D\\. U\\.R \\.R REFILL SPACES SPACE
+		           EMIT KEY INTERPRET CR'
 
-		operators='1\\+ \\+ 1- - \\\* 2\\\* 2/ / r@ @ \\+! -! ! 2@ 2r@ 2\\+! 2-! 0= 0\< 0\> 0\<\> 0\< 0\>
-		           \# r\> \>r 2r\> 2\>r negate invert /mod u/mod um/mod mod max min abs S\>D defer! defer@ cells
-		           cell\\+ drop dup over swap 2drop 2dup 2over 2swap C@ C! C, , '' nip or and xor invert lshift rshift
-		           \> \< u\< \\?dup roll rot'
+		operators='1\\+ \\+ 1- - \\\* 2\\\* 2/ / R@ @ \\+! -! ! 2@ 2R@ 2\\+! 2-! 0= 0\< 0\> 0\<\> 0\< 0\>
+		           \# R\> \>R 2R\> 2\>R NEGATE INVERT /MOD U/MOD UM/MOD MOD MAX MIN ABS S\>D DEFER! DEFER@ CELLS
+		           CELL\\+ DROP DUP OVER SWAP 2DROP 2DUP 2OVER 2SWAP C@ C! C, , '' NIP OR AND XOR INVERT LSHIFT RSHIFT
+		           \> \< U\< \\?DUP ROLL ROT'
 
 		join() { sep=$2; eval set -- $1; IFS="$sep"; echo "$*"; }
 
@@ -59,8 +68,8 @@ provide-module -override forth %{
 	add-highlighter shared/forth/code/ regex "(?i)^:\s+(\S+)$"            1:function
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s):\s+(\S+)$"      1:function
 
-	add-highlighter shared/forth/code/ regex "(?i)^\Q[CHAR]\E\s+."       0:value
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)\Q[CHAR]\E\s+." 0:value
+	add-highlighter shared/forth/code/ regex "(?i)^\Q[CHAR]\E\s+\S"       0:value
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)\Q[CHAR]\E\s+\S" 0:value
 
 	add-highlighter shared/forth/code/ regex "(?i)^\[(IF|ELSE|THEN|DEFINED|UNDEFINED)\](?=\s)"       0:attribute
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)\[(IF|ELSE|THEN|DEFINED|UNDEFINED)\](?=\s)" 0:attribute
