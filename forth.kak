@@ -1,11 +1,11 @@
 provide-module -override forth %{
 	add-highlighter shared/forth regions
 
-	add-highlighter shared/forth/ region '^\\(?=\s)'       '$'               fill comment
-	add-highlighter shared/forth/ region '(?<=\s)\\(?=\s)' '$'               fill comment
+	add-highlighter shared/forth/ region '^\\(?=\s)'       '$'  fill comment
+	add-highlighter shared/forth/ region '(?<=\s)\\(?=\s)' '$'  fill comment
 
-	add-highlighter shared/forth/ region '^\((?=\s)'       '(?<=\s)\)(?=\s)' fill comment
-	add-highlighter shared/forth/ region '(?<=\s)\((?=\s)' '(?<=\s)\)(?=\s)' fill comment
+	add-highlighter shared/forth/ region '^\((?=\s)'       '\)' fill comment
+	add-highlighter shared/forth/ region '(?<=\s)\((?=\s)' '\)' fill comment
 
 	add-highlighter shared/forth/ region '(?<=\s)[.SC]"(?=\s)' '"(?=\s)' fill string
 	add-highlighter shared/forth/ region '(?<=\s)S\\"(?=\s)'   '"(?=\s)' fill string
