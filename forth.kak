@@ -21,7 +21,7 @@ provide-module -override forth %{
 	evaluate-commands %sh{
 		keywords='VOCABULARY VARIABLE VALUE CREATE DOES\> CONSTANT FIELD CHAR IF THEN TO FIELD BEGIN WHILE REPEAT
 		          CASE OF ENDOF ENDCASE DO \\?DO LOOP \\+LOOP ELSE AGAIN UNTIL QUIT EXIT \\[ \\] DEFER
-		          IS MARKER : \\\; \<\# \#\>'
+		          IS MARKER : \\\; \<\# \#\> \#S \#'
 
 		values='HERE TRUE FALSE BL PI CELL I J TIB \#IN \>IN RP0 SP0 BASE STATE ABORT'
 
@@ -29,7 +29,7 @@ provide-module -override forth %{
 		           EMIT KEY INTERPRET CR WITHIN'
 
 		operators='1\\+ \\+ 1- - \\\* 2\\\* 2/ / \\\*/ R@ @ \\+! -! ! 2@ 2R@ 2\\+! 2-! 0= 0\< 0\> 0\<\> 0\< 0\>
-		           \# R\> \>R 2R\> 2\>R NEGATE INVERT /MOD \\\*/MOD U/MOD UM/MOD MOD MAX MIN ABS S\>D DEFER! DEFER@ CELLS
+		           R\> \>R 2R\> 2\>R NEGATE INVERT /MOD \\\*/MOD U/MOD UM/MOD MOD MAX MIN ABS S\>D DEFER! DEFER@ CELLS
 		           CELL\\+ DROP DUP OVER SWAP 2DROP 2DUP 2OVER 2SWAP C@ C! C, , '' NIP OR AND XOR INVERT LSHIFT RSHIFT
 		           \> \< U\< \\?DUP ROLL ROT'
 
