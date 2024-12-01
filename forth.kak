@@ -20,21 +20,24 @@ provide-module -override forth %{
 
 	evaluate-commands %sh{
 		keywords='VOCABULARY VARIABLE VALUE CREATE DOES\> CONSTANT FIELD CHAR IF THEN TO FIELD BEGIN WHILE REPEAT
-		          CASE OF ENDOF ENDCASE DO \\?DO LOOP ELSE AGAIN UNTIL IMMEDIATE QUIT EXIT \\[ \\] DEFER IS'
+		          CASE OF ENDOF ENDCASE DO \\?DO LOOP \\+LOOP ELSE AGAIN UNTIL IMMEDIATE QUIT EXIT \\[ \\] DEFER
+		          IS MARKER'
 
 		values='I J TIB \#IN \>IN RP0 SP0 BASE STATE ABORT'
 
 		functions='ALLOT DECIMAL HEX PICK RP@ SP@ TYPE WORD COUNT FIND U\\. N\\. D\\. U\\.R \\.R REFILL SPACES SPACE
-		           EMIT KEY INTERPRET CR'
+		           EMIT KEY INTERPRET CR WITHIN'
 
-		operators='1\\+ \\+ 1- - \\\* 2\\\* 2/ / R@ @ \\+! -! ! 2@ 2R@ 2\\+! 2-! 0= 0\< 0\> 0\<\> 0\< 0\>
-		           \# R\> \>R 2R\> 2\>R NEGATE INVERT /MOD U/MOD UM/MOD MOD MAX MIN ABS S\>D DEFER! DEFER@ CELLS
+		operators='1\\+ \\+ 1- - \\\* 2\\\* 2/ / \\\*/ R@ @ \\+! -! ! 2@ 2R@ 2\\+! 2-! 0= 0\< 0\> 0\<\> 0\< 0\>
+		           \# R\> \>R 2R\> 2\>R NEGATE INVERT /MOD \\\*/MOD U/MOD UM/MOD MOD MAX MIN ABS S\>D DEFER! DEFER@ CELLS
 		           CELL\\+ DROP DUP OVER SWAP 2DROP 2DUP 2OVER 2SWAP C@ C! C, , '' NIP OR AND XOR INVERT LSHIFT RSHIFT
 		           \> \< U\< \\?DUP ROLL ROT'
 
+		builtin='TRUE FALSE BL PI CELL C/L R/O W/O R/W'
+
 		join() { sep=$2; eval set -- $1; IFS="$sep"; echo "$*"; }
 
-		printf %s\\n "declare-option str-list forth_static_words $(join "${keywords} ${values} ${functions} ${operators}" ' ')"
+		printf %s\\n "declare-option str-list forth_static_words $(join "${keywords} ${values} ${functions} ${operators} ${builtin}" ' ')"
 
 		printf %s "
 			add-highlighter shared/forth/code/ regex (?i)^($(join "${keywords}" '|'))(?=\s)        0:keyword
@@ -53,15 +56,14 @@ provide-module -override forth %{
 			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))(?=\s) 0:operator
 			add-highlighter shared/forth/code/ regex (?i)^($(join "${operators}" '|'))$            0:operator
 			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))$      0:operator
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))(?=\s)        0:builtin
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))(?=\s)  0:builtin
+			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))$             0:builtin
+			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))$       0:builtin
 		"
 	}
 
 	# I don't know enough Bash so if anyone could help me with all this that'd be great
-
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)(TRUE|FALSE|BL|PI|CELL|C/L|R/O|W/O|R/W)(?=\s)" 0:builtin
-	add-highlighter shared/forth/code/ regex "(?i)^(TRUE|FALSE|BL|PI|CELL|C/L|R/O|W/O|R/W)(?=\s)"       0:builtin
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)(TRUE|FALSE|BL|PI|CELL|C/L|R/O|W/O|R/W)$"      0:builtin
-	add-highlighter shared/forth/code/ regex "(?i)^(TRUE|FALSE|BL|PI|CELL|C/L|R/O|W/O|R/W)$"            0:builtin
 
 	add-highlighter shared/forth/code/ regex "(?i)^:\s+(\S+)(?=\s)"       1:function
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s):\s+(\S+)(?=\s)" 1:function
@@ -81,10 +83,10 @@ provide-module -override forth %{
 	add-highlighter shared/forth/code/ regex "(?i)^(\[('|COMPILE)\])|POSTPONE\s+\S+$"            0:function
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)(\[('|COMPILE)\])|POSTPONE\s+\S+$"      0:function
 
-	add-highlighter shared/forth/code/ regex "(?i)^'d+'(?=\s)"       0:value
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)'d+'(?=\s)" 0:value
-	add-highlighter shared/forth/code/ regex "(?i)^'d+'$"            0:value
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)'d+'$"      0:value
+	add-highlighter shared/forth/code/ regex "(?i)^\d+(?=\s)"       0:value
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)\d+(?=\s)" 0:value
+	add-highlighter shared/forth/code/ regex "(?i)^\d+$"            0:value
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)\d+$"      0:value
 }
 
 hook global BufCreate .+\.(fs|fth|4th)$ %{
