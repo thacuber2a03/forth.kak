@@ -21,7 +21,7 @@ provide-module -override forth %{
 	evaluate-commands %sh{
 		keywords='VOCABULARY VARIABLE VALUE CREATE DOES\> CONSTANT FIELD CHAR IF THEN TO FIELD BEGIN WHILE REPEAT
 		          CASE OF ENDOF ENDCASE DO \\?DO LOOP \\+LOOP ELSE AGAIN UNTIL IMMEDIATE QUIT EXIT \\[ \\] DEFER
-		          IS MARKER : ;'
+		          IS MARKER : \;'
 
 		values='TRUE FALSE BL PI CELL I J TIB \#IN \>IN RP0 SP0 BASE STATE ABORT'
 
