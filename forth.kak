@@ -23,7 +23,7 @@ provide-module -override forth %{
 		          CASE OF ENDOF ENDCASE DO \\?DO LOOP \\+LOOP ELSE AGAIN UNTIL IMMEDIATE QUIT EXIT \\[ \\] DEFER
 		          IS MARKER'
 
-		values='I J TIB \#IN \>IN RP0 SP0 BASE STATE ABORT'
+		values='TRUE FALSE BL PI CELL I J TIB \#IN \>IN RP0 SP0 BASE STATE ABORT'
 
 		functions='ALLOT DECIMAL HEX PICK RP@ SP@ TYPE WORD COUNT FIND U\\. N\\. D\\. U\\.R \\.R REFILL SPACES SPACE
 		           EMIT KEY INTERPRET CR WITHIN'
@@ -33,7 +33,7 @@ provide-module -override forth %{
 		           CELL\\+ DROP DUP OVER SWAP 2DROP 2DUP 2OVER 2SWAP C@ C! C, , '' NIP OR AND XOR INVERT LSHIFT RSHIFT
 		           \> \< U\< \\?DUP ROLL ROT'
 
-		builtin='TRUE FALSE BL PI CELL C/L R/O W/O R/W'
+		builtin='C/L R/O W/O R/W'
 
 		join() { sep=$2; eval set -- $1; IFS="$sep"; echo "$*"; }
 
