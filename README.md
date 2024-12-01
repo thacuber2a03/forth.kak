@@ -1,6 +1,6 @@
 # forth.kak
 
-a (as of now) half-baked FORTH highlighter for Kakoune
+a (as of now) half-baked FORTH highlighter for [Kakoune](https://github.com/mawww/kakoune)
 
 aims to sensibly highlight all FORTH words in the [2012 FORTH standard](https://forth-standard.org/standard/core) and maybe some more
 
