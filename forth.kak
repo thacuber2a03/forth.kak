@@ -11,6 +11,14 @@ provide-module -override forth %{
 	add-highlighter shared/forth/ region '(?i)(?<=\s)S\\"(?=\s)'   '"(?=\s)' fill string
 	add-highlighter shared/forth/ region '(?i)(?<=\s)ABORT"(?=\s)' '"(?=\s)' fill string
 	add-highlighter shared/forth/ region '(?i)(?<=\s)BREAK"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region       '(?i)^[.SC]"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region       '(?i)^S\\"(?=\s)'   '"(?=\s)' fill string
+	add-highlighter shared/forth/ region       '(?i)^ABORT"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region       '(?i)^BREAK"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)[.SC]"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)S\\"(?=\s)'   '"$'      fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)ABORT"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)BREAK"(?=\s)' '"$'      fill string
 	add-highlighter shared/forth/ region       '(?i)^[.SC]"(?=\s)' '"$'      fill string
 	add-highlighter shared/forth/ region       '(?i)^S\\"(?=\s)'   '"$'      fill string
 	add-highlighter shared/forth/ region       '(?i)^ABORT"(?=\s)' '"$'      fill string
