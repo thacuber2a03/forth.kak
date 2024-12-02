@@ -7,14 +7,14 @@ provide-module -override forth %{
 	add-highlighter shared/forth/ region '^\((?=\s)'       '\)' fill comment
 	add-highlighter shared/forth/ region '(?<=\s)\((?=\s)' '\)' fill comment
 
-	add-highlighter shared/forth/ region '(?<=\s)[.SC]"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region '(?<=\s)S\\"(?=\s)'   '"(?=\s)' fill string
-	add-highlighter shared/forth/ region '(?<=\s)ABORT"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region '(?<=\s)BREAK"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region       '^[.SC]"(?=\s)' '"$'      fill string
-	add-highlighter shared/forth/ region       '^S\\"(?=\s)'   '"$'      fill string
-	add-highlighter shared/forth/ region       '^ABORT"(?=\s)' '"$'      fill string
-	add-highlighter shared/forth/ region       '^BREAK"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)[.SC]"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)S\\"(?=\s)'   '"(?=\s)' fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)ABORT"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)BREAK"(?=\s)' '"(?=\s)' fill string
+	add-highlighter shared/forth/ region       '(?i)^[.SC]"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region       '(?i)^S\\"(?=\s)'   '"$'      fill string
+	add-highlighter shared/forth/ region       '(?i)^ABORT"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region       '(?i)^BREAK"(?=\s)' '"$'      fill string
 
 	add-highlighter shared/forth/code default-region group
 
@@ -95,7 +95,7 @@ provide-module -override forth %{
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+$"      0:value
 }
 
-hook global BufCreate .+\.(fs|fth|4th)$ %{
+hook global BufCreate .+\.(fs?|fth|4th)$ %{
 	set-option buffer filetype forth
 }
 
