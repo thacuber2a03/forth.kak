@@ -7,24 +7,31 @@ provide-module -override forth %{
 	add-highlighter shared/forth/ region '^\((?=\s)'       '\)' fill comment
 	add-highlighter shared/forth/ region '(?<=\s)\((?=\s)' '\)' fill comment
 
-	add-highlighter shared/forth/ region '(?i)(?<=\s)[.SC]"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region '(?i)(?<=\s)S\\"(?=\s)'   '"(?=\s)' fill string
-	add-highlighter shared/forth/ region '(?i)(?<=\s)ABORT"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region '(?i)(?<=\s)BREAK"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region       '(?i)^[.SC]"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region       '(?i)^S\\"(?=\s)'   '"(?=\s)' fill string
-	add-highlighter shared/forth/ region       '(?i)^ABORT"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region       '(?i)^BREAK"(?=\s)' '"(?=\s)' fill string
-	add-highlighter shared/forth/ region '(?i)(?<=\s)[.SC]"(?=\s)' '"$'      fill string
-	add-highlighter shared/forth/ region '(?i)(?<=\s)S\\"(?=\s)'   '"$'      fill string
-	add-highlighter shared/forth/ region '(?i)(?<=\s)ABORT"(?=\s)' '"$'      fill string
-	add-highlighter shared/forth/ region '(?i)(?<=\s)BREAK"(?=\s)' '"$'      fill string
-	add-highlighter shared/forth/ region       '(?i)^[.SC]"(?=\s)' '"$'      fill string
-	add-highlighter shared/forth/ region       '(?i)^S\\"(?=\s)'   '"$'      fill string
-	add-highlighter shared/forth/ region       '(?i)^ABORT"(?=\s)' '"$'      fill string
-	add-highlighter shared/forth/ region       '(?i)^BREAK"(?=\s)' '"$'      fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)[.SC]"(?=\s)' '"' fill string
+	add-highlighter shared/forth/ region '(?i)(?<=\s)ABORT"(?=\s)' '"' fill string
+	add-highlighter shared/forth/ region       '(?i)^[.SC]"(?=\s)' '"' fill string
+	add-highlighter shared/forth/ region       '(?i)^ABORT"(?=\s)' '"' fill string
+
+	# string escaping (S\#)
+	add-highlighter shared/forth/escstring-ws region '(?i)(?<=\s)S\\"(?=\s)'   '"' group
+	add-highlighter shared/forth/escstring-ln region       '(?i)^S\\"(?=\s)'   '"' group
+	add-highlighter shared/forth/escstring-ws fill string
+	add-highlighter shared/forth/escstring-ws regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
+	add-highlighter shared/forth/escstring-ln fill string
+	add-highlighter shared/forth/escstring-ln regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
 
 	add-highlighter shared/forth/code default-region group
+
+	declare-option str-list forth_static_words \
+		'VOCABULARY' 'VARIABLE' 'VALUE' 'CREATE' 'DOES>' 'CONSTANT' 'FIELD' 'CHAR' 'IF' 'THEN' 'TO' 'FIELD' 'BEGIN'   \
+		'WHILE' 'REPEAT' 'CASE' 'OF' 'ENDOF' 'ENDCASE' 'DO' '?DO' 'LOOP' '+LOOP' 'ELSE' 'AGAIN' 'UNTIL' 'QUIT' 'EXIT' \
+		'[' ']' 'DEFER' 'IS' 'MARKER' ':' ';' '<#' '#>' '#S' '#' 'HERE' 'TRUE' 'FALSE' 'BL' 'PI' 'CELL' 'I' 'J' 'TIB' \
+		'#IN' '>IN' 'RP0' 'SP0' 'BASE' 'STATE' 'ABORT' 'ALLOT' 'DECIMAL' 'HEX' 'PICK' 'RP@' 'SP@' 'TYPE' 'WORD'       \
+		'COUNT' 'FIND' 'U.' 'N.' 'D.' 'U.R' '.R' 'REFILL' 'SPACES' 'SPACE' 'EMIT' 'KEY' 'INTERPRET' 'CR' 'WITHIN'     \
+		'1+' '+' '1-' '-' '*' '2*' '2/' '/' '*/' 'R@' '@' '+!' '-!' '!' '2@' '2R@' '2+!' '2-!' '0=' '0<' '0>' '0<>'   \
+		'0<' '0>' 'R>' '>R' '2R>' '2>R' 'NEGATE' 'INVERT' '/MOD' '*/MOD' 'U/MOD' 'UM/MOD' 'MOD' 'MAX' 'MIN' 'ABS'     \
+		'S>D' 'DEFER!' 'DEFER@' 'CELLS' 'CELL+' 'DROP' 'DUP' 'OVER' 'SWAP' '2DROP' '2DUP' '2OVER' '2SWAP' 'C@' 'C!'   \
+		'C,' ',' '''' 'NIP' 'OR' 'AND' 'XOR' 'INVERT' 'LSHIFT' 'RSHIFT' '>' '<' 'U<' '?DUP' 'ROLL' 'ROT' 'IMMEDIATE'
 
 	evaluate-commands %sh{
 		keywords='VOCABULARY VARIABLE VALUE CREATE DOES\> CONSTANT FIELD CHAR IF THEN TO FIELD BEGIN WHILE REPEAT
@@ -41,13 +48,9 @@ provide-module -override forth %{
 		           CELL\\+ DROP DUP OVER SWAP 2DROP 2DUP 2OVER 2SWAP C@ C! C, , '' NIP OR AND XOR INVERT LSHIFT RSHIFT
 		           \> \< U\< \\?DUP ROLL ROT'
 
-		builtins='C/L R/O W/O R/W'
-
 		attributes='IMMEDIATE'
 
 		join() { sep=$2; eval set -- $1; IFS="$sep"; echo "$*"; }
-
-		printf %s\\n "declare-option str-list forth_static_words $(join "${keywords} ${values} ${functions} ${operators} ${builtin}" ' ')"
 
 		printf %s "
 			add-highlighter shared/forth/code/ regex (?i)^($(join "${keywords}" '|'))(?=\s)          0:keyword
@@ -66,10 +69,6 @@ provide-module -override forth %{
 			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))(?=\s)   0:operator
 			add-highlighter shared/forth/code/ regex (?i)^($(join "${operators}" '|'))$              0:operator
 			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${operators}" '|'))$        0:operator
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))(?=\s)          0:builtin
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))(?=\s)    0:builtin
-			add-highlighter shared/forth/code/ regex (?i)^($(join "${builtins}" '|'))$               0:builtin
-			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${builtins}" '|'))$         0:builtin
 			add-highlighter shared/forth/code/ regex (?i)^($(join "${attributes}" '|'))(?=\s)        0:attribute
 			add-highlighter shared/forth/code/ regex (?i)(?<=\s)($(join "${attributes}" '|'))(?=\s)  0:attribute
 			add-highlighter shared/forth/code/ regex (?i)^($(join "${attributes}" '|'))$             0:attribute
