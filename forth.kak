@@ -29,10 +29,10 @@ provide-module -override forth %{
 		'[' ']' 'DEFER' 'IS' 'MARKER' ':' ';' '<#' '#>' '#S' '#' 'HERE' 'TRUE' 'FALSE' 'BL' 'PI' 'CELL' 'I' 'J' 'TIB' \
 		'#IN' '>IN' 'RP0' 'SP0' 'BASE' 'STATE' 'ABORT' 'ALLOT' 'DECIMAL' 'HEX' 'PICK' 'RP@' 'SP@' 'TYPE' 'WORD'       \
 		'COUNT' 'FIND' 'U.' 'N.' 'D.' 'U.R' '.R' 'REFILL' 'SPACES' 'SPACE' 'EMIT' 'KEY' 'INTERPRET' 'CR' 'WITHIN'     \
-		'1+' '+' '1-' '-' '*' '2*' '2/' '/' '*/' 'R@' '@' '+!' '-!' '!' '2@' '2R@' '2+!' '2-!' '0=' '0<' '0>' '0<>'   \
-		'0<' '0>' 'R>' '>R' '2R>' '2>R' 'NEGATE' 'INVERT' '/MOD' '*/MOD' 'U/MOD' 'UM/MOD' 'MOD' 'MAX' 'MIN' 'ABS'     \
-		'S>D' 'DEFER!' 'DEFER@' 'CELLS' 'CELL+' 'DROP' 'DUP' 'OVER' 'SWAP' '2DROP' '2DUP' '2OVER' '2SWAP' 'C@' 'C!'   \
-		'C,' ',' "'" 'NIP' 'OR' 'AND' 'XOR' 'INVERT' 'LSHIFT' 'RSHIFT' '>' '<' 'U<' '?DUP' 'ROLL' 'ROT' 'IMMEDIATE'
+		'1+' '+' '1-' '-' '*' '2*' '2/' '/' '*/' 'R@' '@' '+!' '-!' '!' '2@' '2R@' '0=' '0<' '0>' '0<>' '0<' '0>'     \
+		'R>' '>R' '2R>' '2>R' 'NEGATE' 'INVERT' '/MOD' '*/MOD' 'U/MOD' 'UM/MOD' 'MOD' 'MAX' 'MIN' 'ABS' 'S>D'         \
+		'DEFER!' 'DEFER@' 'CELLS' 'CELL+' 'DROP' 'DUP' 'OVER' 'SWAP' '2DROP' '2DUP' '2OVER' '2SWAP' 'C@' 'C!' 'C,'    \
+		',' "'" 'NIP' 'OR' 'AND' 'XOR' 'INVERT' 'LSHIFT' 'RSHIFT' '>' '<' 'U<' '?DUP' 'ROLL' 'ROT' 'IMMEDIATE'
 
 	evaluate-commands %sh{
 		keywords='VOCABULARY VARIABLE VALUE CREATE DOES\> CONSTANT FIELD CHAR IF THEN TO FIELD BEGIN WHILE REPEAT
