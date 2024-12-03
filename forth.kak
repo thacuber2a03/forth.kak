@@ -15,10 +15,10 @@ provide-module -override forth %{
 	# string escaping (S\#)
 	add-highlighter shared/forth/escstring-ws region '(?i)(?<=\s)S\\"(?=\s)'   '"' group
 	add-highlighter shared/forth/escstring-ln region       '(?i)^S\\"(?=\s)'   '"' group
-	add-highlighter shared/forth/escstring-ws fill string
-	add-highlighter shared/forth/escstring-ws regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
-	add-highlighter shared/forth/escstring-ln fill string
-	add-highlighter shared/forth/escstring-ln regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
+	add-highlighter shared/forth/escstring-ws/ fill string
+	add-highlighter shared/forth/escstring-ws/ regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
+	add-highlighter shared/forth/escstring-ln/ fill string
+	add-highlighter shared/forth/escstring-ln/ regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
 
 	add-highlighter shared/forth/code default-region group
 
