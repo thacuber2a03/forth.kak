@@ -7,21 +7,24 @@ provide-module -override forth %{
 	add-highlighter shared/forth/ region '^\((?=\s)'       '\)' fill comment
 	add-highlighter shared/forth/ region '(?<=\s)\((?=\s)' '\)' fill comment
 
+	# strings
 	add-highlighter shared/forth/ region '(?i)(?<=\s)[.SC]"(?=\s)' '"' fill string
 	add-highlighter shared/forth/ region '(?i)(?<=\s)ABORT"(?=\s)' '"' fill string
 	add-highlighter shared/forth/ region       '(?i)^[.SC]"(?=\s)' '"' fill string
 	add-highlighter shared/forth/ region       '(?i)^ABORT"(?=\s)' '"' fill string
 
-	# string escaping (S\#)
-	add-highlighter shared/forth/escstring-ws region '(?i)(?<=\s)S\\"(?=\s)'   '"' group
-	add-highlighter shared/forth/escstring-ln region       '(?i)^S\\"(?=\s)'   '"' group
-	add-highlighter shared/forth/escstring-ws/ regex 'S\\"' 0:string
+	# string escaping (S\")
+	add-highlighter shared/forth/escstring-ws region '(?i)(?<=\s)S\\"(?=\s)' '"' group
 	add-highlighter shared/forth/escstring-ws/ fill string
 	add-highlighter shared/forth/escstring-ws/ regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
-	add-highlighter shared/forth/escstring-ln/ regex 'S\\"' 0:string
+	add-highlighter shared/forth/escstring-ws/ regex 'S\\"' 0:string
+
+	add-highlighter shared/forth/escstring-ln region '(?i)^S\\"(?=\s)' '"' group
 	add-highlighter shared/forth/escstring-ln/ fill string
 	add-highlighter shared/forth/escstring-ln/ regex '\\[\\abeflmnqrtvz"]|\\x[0-9a-fA-F]{2}' 0:value
+	add-highlighter shared/forth/escstring-ln/ regex 'S\\"' 0:string
 
+	# code
 	add-highlighter shared/forth/code default-region group
 
 	declare-option str-list forth_static_words \
@@ -98,10 +101,10 @@ provide-module -override forth %{
 	add-highlighter shared/forth/code/ regex "(?i)^((\[('|COMPILE)\])|POSTPONE)\s+(\S+)$"            0:attribute
 	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)((\[('|COMPILE)\])|POSTPONE)\s+(\S+)$"      0:attribute
 
-	add-highlighter shared/forth/code/ regex "(?i)^-?\d+(?=\s)"       0:value
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+(?=\s)" 0:value
-	add-highlighter shared/forth/code/ regex "(?i)^-?\d+$"            0:value
-	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+$"      0:value
+	add-highlighter shared/forth/code/ regex "(?i)^-?\d+\.?(?=\s)"       0:value
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+\.?(?=\s)" 0:value
+	add-highlighter shared/forth/code/ regex "(?i)^-?\d+\.?$"            0:value
+	add-highlighter shared/forth/code/ regex "(?i)(?<=\s)-?\d+\.?$"      0:value
 }
 
 hook global BufCreate .+\.(fs?|fth|4th)$ %{
